@@ -10,11 +10,11 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 import java.io.IOException;
 
 @Configuration
-public class MvcConfiguration implements WebMvcConfigurer {
+public class PathConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/")
+                .addResourceLocations("classpath:/public/")
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
                     @Override

@@ -20,7 +20,9 @@ public class AuthenticationService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         try{
+
             UserModel user = userRepository.findUserModelByUsername(userName);
+
             return new User(user.getUsername(),user.getPassword(),new ArrayList<>());
         }catch(UsernameNotFoundException e){
             throw new UsernameNotFoundException("Username can not be found",e);

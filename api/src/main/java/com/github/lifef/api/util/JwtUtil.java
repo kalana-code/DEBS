@@ -1,5 +1,6 @@
 package com.github.lifef.api.util;
 
+import com.github.lifef.api.model.UserModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -37,8 +38,16 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetails userDetails , UserModel user){
         Map<String,Object> claims = new HashMap<>();
+
+        // set User Claims
+        claims.put("userName",user.getUsername());
+        claims.put("role",user.getRole());
+        claims.put("firstName",user.getFirstName());
+        claims.put("lastName",user.getLastName());
+        claims.put("userId",user.getUserId());
+
         return createToken(claims,userDetails.getUsername());
     }
 

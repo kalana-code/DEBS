@@ -1,0 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Oswald);
+
+			
+			.page_404_con {
+                position: relative;
+                background:rgb(230, 230, 230);
+                
+				top:10%;
+				left:0%;
+				padding: 100px;
+				height:100%;
+				text-align: center;
+				width:100%;
+			
+			}
+			.i {
+                margin-top: -80px;
+                font-style: normal;
+                font-weight: 400;
+				font-size:200px;
+			}

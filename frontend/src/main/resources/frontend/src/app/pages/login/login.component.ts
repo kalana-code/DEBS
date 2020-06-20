@@ -1,26 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import {User} from '../../auth/model/user/user';
+import { User } from '../../auth/model/user/user';
+import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
 
 import { Role } from '../../auth/model/user/role';
 import { AuthService } from '../../auth/auth.service';
-import {urlResolver} from './utils/urlResolve'
+import { urlResolver } from './utils/urlResolve'
 
-@Component({ 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+      const isSubmitted = form && form.submitted;
+      return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    }
+  }
+
+@Component({
     // selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 
 })
 export class Login implements OnInit {
     loginForm: FormGroup;
+    hide = true;
     loading = false;
     submitted = false;
     returnUrl: string;
-    isVaid =false;
-
+    isVaid = false;
+    error = ""
+    emailFormControl = new FormControl('', [
+        Validators.required,
+        Validators.email,
+      ]);
+    
+      matcher = new MyErrorStateMatcher();
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -28,11 +45,11 @@ export class Login implements OnInit {
         private authService: AuthService
     ) {
 
-      // redirect to home if already logged in
-      
-        let user : User = this.authService.currentUserValue;
         // redirect to home if already logged in
-       
+
+        let user: User = this.authService.currentUserValue;
+        // redirect to home if already logged in
+
         if (user) {
             console.log(urlResolver(user.role))
             this.router.navigate([
@@ -56,7 +73,7 @@ export class Login implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-        this.isVaid =false;
+        this.isVaid = false;
 
         // stop here if form is invalid
         if (this.loginForm.invalid) {
@@ -64,6 +81,7 @@ export class Login implements OnInit {
         }
 
         this.loading = true;
+
         this.authService.login(this.formData.username.value, this.formData.password.value)
             .pipe(first())
             .subscribe(
@@ -77,7 +95,9 @@ export class Login implements OnInit {
                     ])
                 },
                 error => {
+                    this.error = "Back End Offline";
                     this.loading = false;
                 });
+
     }
 }

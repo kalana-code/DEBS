@@ -48,36 +48,4 @@ public class UserController {
         LOG.info("Getting user by username.");
         return userService.getUserByUsername(user.getUsername());
     }
-
-//    @RequestMapping(value = "/settings/{userId}", method = RequestMethod.GET)
-//    public Object getAllUserSettings(@PathVariable String userId) {
-//        User user = userRepository.findOne(userId);
-//        if (user != null) {
-//            return user.getUserSettings();
-//        } else {
-//            return "User not found.";
-//        }
-//    }
-
-//    @RequestMapping(value = "/settings/{userId}/{key}", method = RequestMethod.GET)
-//    public String getUserSetting(@PathVariable String userId, @PathVariable String key) {
-//        User user = userRepository.findOne(userId);
-//        if (user != null) {
-//            return user.getUserSettings().get(key);
-//        } else {
-//            return "User not found.";
-//        }
-//    }
-
-//    @RequestMapping(value = "/settings/{userId}/{key}/{value}", method = RequestMethod.GET)
-//    public String addUserSetting(@PathVariable String userId, @PathVariable String key, @PathVariable String value) {
-//        User user = userRepository.findOne(userId);
-//        if (user != null) {
-//            user.getUserSettings().put(key, value);
-//            userRepository.save(user);
-//            return "Key added";
-//        } else {
-//            return "User not found.";
-//        }
-//    }
 }
